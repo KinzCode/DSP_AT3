@@ -19,6 +19,7 @@ class Dataset:
     """
       Return number of rows of loaded dataset
     """
+    self.rows = len(df)
     return None
 
   def get_n_cols(self):
