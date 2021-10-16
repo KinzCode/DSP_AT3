@@ -19,6 +19,7 @@ class DateColumn:
     """
     Return number of unique values for selected column
     """
+    self.unique = pd.unique(serie)
     return None
 
   def get_missing(self):
