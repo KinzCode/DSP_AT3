@@ -53,6 +53,7 @@ class Dataset:
     """
       Return number of duplicated rows of loaded dataset
     """
+    self.duplicate = df.duplicated(subset='one', keep='first').sum()
     return None
 
   def get_n_missing(self):
@@ -88,17 +89,20 @@ class Dataset:
     """
       Return list column names of numeric type from loaded dataset
     """
+    self.num_col = list(df.select_dtypes(include='number').columns)
     return None
 
   def get_text_columns(self):
     """
       Return list column names of text type from loaded dataset
     """
+    self.text_col = list(df.select_dtypes(include='object').columns)
     return None
 
   def get_date_columns(self):
     """
       Return list column names of datetime type from loaded dataset
     """
+    self.date_col = list(df.select_dtypes(include='datetime').columns)
     return None
 
