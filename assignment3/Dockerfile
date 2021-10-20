@@ -1,6 +1,7 @@
 FROM python:3.8.2
-WORKDIR /app
+WORKDIR /project
 COPY requirements.txt .
 RUN pip install -r requirements.txt
-COPY . /app
-CMD ["streamlit", "run", "app/streamlit_app.py"]
+COPY . /app . /project
+COPY . /src . /project
+CMD ["streamlit", "run", "streamlit_app.py"]
