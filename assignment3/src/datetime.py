@@ -81,7 +81,6 @@ class DateColumn:
     """
     # get lowest date with min
     self.min = self.serie.min()
-    print(self.min)
     return None
 
   def get_max(self):
@@ -90,7 +89,6 @@ class DateColumn:
     """
     # get largest date with max
     self.max = self.serie.max()
-    print(self.max)
     return None
 
   def get_barchart(self):

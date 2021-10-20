@@ -13,6 +13,7 @@ class TextColumn:
     """
     Return name of selected column
     """
+    self.test = 1 + 3
     return None
 
   def get_unique(self):
