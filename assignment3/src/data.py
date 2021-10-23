@@ -4,8 +4,8 @@ from dataclasses import dataclass
 import pandas as pd
 import numpy as np
 from pathlib import Path
-file_path =
-rows = st.slider('Select the number of rows to be displayed',0,50,5 )
+#file_path =
+#rows = st.slider('Select the number of rows to be displayed',0,50,5 )
 @dataclass
 class Dataset:
   name: str
@@ -16,7 +16,7 @@ class Dataset:
     Return filename of loaded dataset
     """
 
-    self.name = Path(file_path).stem
+    #self.name = Path(file_path).stem
     return None
 
   def get_n_rows(self):
@@ -60,7 +60,7 @@ class Dataset:
     """
       Return number of rows with missing values of loaded dataset
     """
-    self.missing = self.df.isnull().any(axis=1)sum()
+    self.missing = self.df.isnull().any(axis=1).sum()
     return None
 
   def get_head(self, n=5):
@@ -68,21 +68,21 @@ class Dataset:
       Return Pandas Dataframe with top rows of loaded dataset
     """
 
-    self.head = self.df.head(rows)
+   # self.head = self.df.head(rows)
     return None
 
   def get_tail(self, n=5):
     """
       Return Pandas Dataframe with bottom rows of loaded dataset
     """
-    self.tail = self.df.tail(rows)
+   # self.tail = self.df.tail(rows)
     return None
 
   def get_sample(self, n=5):
     """
       Return Pandas Dataframe with random sampled rows of loaded dataset
     """
-    self.sample = self.df.sample(rows)
+    #self.sample = self.df.sample(rows)
     return None
 
   def get_numeric_columns(self):
