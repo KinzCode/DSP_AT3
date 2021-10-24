@@ -10,7 +10,6 @@ class Dataset:
     name: str
     df: pd.DataFrame
   
-    
     def get_name(self):
       """
       Return filename of loaded dataset
@@ -44,7 +43,6 @@ class Dataset:
       """
         Return dictionary with column name as keys and data type as values
       """
-      #self.dataTypeDict = self.df.dtypes.to_dict()
       self.dataTypeDict = self.df.dtypes.apply(lambda x: x.name).to_dict()
   
       return None
