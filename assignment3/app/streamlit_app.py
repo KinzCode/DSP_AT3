@@ -4,8 +4,6 @@ import numpy as np
 import src
 
 
-
-
 def data_logic(df, file_name):
     # Render overall information heading
     overall_information = st.header('Overall Information')
@@ -34,6 +32,7 @@ def data_logic(df, file_name):
     # get cols dtype and render as table
     data_inst.get_cols_dtype()
     dtype_df = pd.DataFrame([data_inst.dataTypeDict]).T
+    dtype_df.rename(columns = {0: 'value'}, inplace = True)
     cols_dtype_df = st.dataframe(data=dtype_df)
     # render slider
     slider = st.slider("Select the number of rows to be displayed",
@@ -51,7 +50,7 @@ def data_logic(df, file_name):
     # get sample_df and render based on slider's values
     data_inst.get_sample(slider)
     sample_df = st.dataframe(data = data_inst.sample)
-    
+
     # user mutli select box to choose which text columns converted to datetime
     data_inst.get_text_columns()
     select_box = st.multiselect('Which columns do you want to convert to dates', data_inst.text_col)
