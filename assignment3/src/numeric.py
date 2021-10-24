@@ -35,22 +35,21 @@ class NumericColumn:
     """
     Return number of occurrence of 0 value for selected column
     """
-    zeros = 0
+    self.zeros = 0
     for i in self.serie.values:
         if i ==0:
-          zeros += 1
-    print(zeros)
+          self.zeros += 1
     return None
 
   def get_negatives(self):
     """
     Return number of negative values for selected column
     """
-    negatives = 0
+    self.negatives = 0
     for n in self.serie.values:  
         if n < 0: 
-          negatives += 1
-    print(negatives)
+          self.negatives += 1
+ 
     return None
 
   def get_mean(self):
