@@ -95,7 +95,13 @@ def numeric_logic(df, numerical_columns):
         numeric_frame = pd.DataFrame([col_dict]).T
         numeric_frame.rename(columns = {0: 'Value'}, inplace = True)
         numeric_frame_df = st.dataframe(data=numeric_frame)
+        # create histogram and render
+        numeric_inst.get_histogram()
+        numeric_histogram = numeric_inst.histogram
         
+        # create frequency table and render
+        numeric_inst.get_frequent()
+        numeric_inst.frequencie
     
 def datetime_logic(df):
     # https://stackoverflow.com/questions/17465045/can-pandas-automatically-read-dates-from-a-csv-file
