@@ -107,12 +107,52 @@ def numeric_logic(df, numerical_columns):
         numeric_inst.get_histogram()
         numeric_histogram = numeric_inst.histogram
         
-        # create frequency table and render
+        # create dictionary with labels and values
         numeric_inst.get_frequent()
         numeric_inst.frequencie
 
 
-def text_logic(df):
+def text_logic(df, text_columns):
+    for col in df[text_columns]:
+        text_inst = src.numeric.NumericColumn(col, df[col])
+        # get name and render
+        text_inst.get_name()
+        text_subtitle = st.subheader(text_inst.get_name())
+        
+        # create text info
+        text_inst.get_unique()
+        text_inst.get_missing()
+        text_inst.get_empty()
+        text_inst.get_whitespace()
+        text_inst.get_lowercase()
+        text_inst.get_uppercase()
+        text_inst.get_alphabet()
+        text_inst.get_digit()
+        text_inst.get_mode()
+        
+        # create dictionary with labels and values
+        col_dict = {'Number of Unique Values': text_inst.unique,
+                    'Number of Rows with Missing Values': text_inst.missing,
+                    'Number of Empty Rows': text_inst.empty,
+                    'Number of Rows with Only Whitespace': text_inst.white,
+                    'Number of Rows with Only Lowercases': text_inst.lower,
+                    'Number of Rows with Only Uppercases': text_inst.upper,
+                    'Number of Rows with Only Alphabet': text_inst.alpha,
+                    'Number of Rows with only Digits': text_inst.digit,
+                    'Mode Value': text_inst.mode
+                    }
+        # parse dict to df and render
+        text_frame = pd.DataFrame([col_dict]).T
+        text_frame.rename(columns = {0: 'Value'}, inplace = True)
+        text_frame_df = st.dataframe(data=text_frame)
+        
+        # plot and render bar chart
+        text_inst.get_barchar()
+        text_barchart = text_inst.barchart
+        
+        # get frequencies and render
+        text_inst.get_frequent()
+        text_frequency = st.dataframe(date = text_inst.frequent)
     return    
 
 
@@ -208,7 +248,7 @@ def run():
         numeric_logic(df, numerical_columns)
         
         # Apply text_logic here
-        text_logic(df)
+        text_logic(df, text_columns)
         
         # create dateframe
         # date_df = df.select_dtypes(include=[np.datetime64])
