@@ -109,7 +109,7 @@ def numeric_logic(df, numerical_columns):
         
         # create dictionary with labels and values
         numeric_inst.get_frequent()
-        numeric_inst.frequencie
+        numeric_inst.frequency
 
 
 def text_logic(df, text_columns):
@@ -161,14 +161,47 @@ def text_logic(df, text_columns):
         
 
 
-def datetime_logic(df):
+def datetime_logic(df, date_columns):
+    """
+    INSERT DOCSTRING
+    """
     # https://stackoverflow.com/questions/17465045/can-pandas-automatically-read-dates-from-a-csv-file
     # loop over dates
     #st.subheader('Information on Dates')
     #date_column = st.write(df)
-    for col in df:
-        #date_class = src.datetime.DateColumn(col, df)
-        subheader = st.subheader(f'Information on {col}')
+    for col in df[date_columns]:
+        date_inst = src.datetime.DateColumn(col, df[col])
+        date_subheader = st.subheader(date_inst.get_name())
+        
+        # create date info
+        date_inst.get_unique()
+        date_inst.get_missing()
+        date_inst.get_weekend()
+        date_inst.get_weekday()
+        date_inst.get_future()
+        date_inst.get_empty_1900()
+        date_inst.get_empty_1970()
+        date_inst.get_min()
+        date_inst.get_max()
+        
+        # create dictionary with labels and values
+        col_dict = {'Number of Unique Values': date_inst.unique,
+                    'Number of Rows with Missing Values': date_inst.missing,
+                    'Number of Weekend Dates': date_inst.weekend,
+                    'Number of Weekday Dates': date_inst.weekday,
+                    'Number of Dates in Future': date_inst.future,
+                    'Number of Rows with 1900-01-01': date_inst.empty_1900,
+                    'Number of Rows with 1970-01-01': date_inst.empty_1970,
+                    'Minimum Value': date_inst.min,
+                    'Maximum Value': date_inst.max
+
+                    }
+        # parse dict to df and render
+        date_frame = pd.DataFrame([col_dict]).T
+        date_frame.rename(columns = {0: 'Value'}, inplace = True)
+        date_frame_df = st.dataframe(data=date_frame)
+        
+        
     return
 
 
@@ -250,7 +283,7 @@ def run():
         text_columns, numerical_columns = data_logic(df, uploaded_file.name)
         
         # Apply text_logic here
-        #numeric_logic(df, numerical_columns)
+        numeric_logic(df, numerical_columns)
         
         # Apply text_logic here
         text_logic(df, text_columns)

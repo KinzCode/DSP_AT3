@@ -31,7 +31,7 @@ class DateColumn:
     """
     # filter series for only n/a values then take length
     self.missing = len(self.serie.loc[self.serie.isnull()])
-    print(self.missing)
+    
     return None
 
   def get_weekend(self):
@@ -105,6 +105,13 @@ class DateColumn:
     Return the Pandas dataframe containing the occurrences and percentage of the top 20 most frequent values
     """
     # create frequencies dataframe
-    self.frequent = pd.DataFrame(self.serie.value_counts())
+    occurences = pd.DataFrame(self.serie.value_counts()).reset_index()
+    percentage = pd.DataFrame(self.serie.value_counts(normalize = True)).reset_index()
+    
+    self.frequency = occurences.merge(percentage, on = 'index', how = 'left')
+    self.frequency.rename(columns = { self.frequencie.columns[0]: 'value',
+                                      self.frequencie.columns[1]: 'occurance',
+                                      self.frequencie.columns[2]: 'precentage'},
+                            inplace = True)
     return None
 
