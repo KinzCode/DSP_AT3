@@ -2,7 +2,7 @@
 import streamlit as st
 from dataclasses import dataclass
 import pandas as pd
-
+import numpy as np
 
 
 @dataclass
@@ -35,22 +35,21 @@ class NumericColumn:
     """
     Return number of occurrence of 0 value for selected column
     """
-    zeros = 0
+    self.zeros = 0
     for i in self.serie.values:
         if i ==0:
-          zeros += 1
-    print(zeros)
+          self.zeros += 1
     return None
 
   def get_negatives(self):
     """
     Return number of negative values for selected column
     """
-    negatives = 0
+    self.negatives = 0
     for n in self.serie.values:  
         if n < 0: 
-          negatives += 1
-    print(negatives)
+          self.negatives += 1
+ 
     return None
 
   def get_mean(self):
@@ -92,13 +91,25 @@ class NumericColumn:
     """
     Return the generated histogram for selected column
     """
-    self.histogram = st.hist(self.serie)
+    hist_values = np.histogram(self.serie,
+                                bins=50,
+                                range=(0,50)
+                                )[0]
+    
+    self.histogram = st.bar_chart(hist_values)
     return None
 
   def get_frequent(self):
     """
     Return the Pandas dataframe containing the occurrences and percentage of the top 20 most frequent values
     """
-    self.occurences = pd.DataFrame(self.serie.value_counts()) 
-    self.percentage = pd.DataFrame(self.serie.value_counts(normalize = True))
+    occurences = pd.DataFrame(self.serie.value_counts()).reset_index()
+    percentage = pd.DataFrame(self.serie.value_counts(normalize = True)).reset_index()
+    
+    self.frequencie = occurences.merge(percentage, on = 'index', how = 'left')
+    self.frequencie.rename(columns = { self.frequencie.columns[0]: 'value',
+                                      self.frequencie.columns[1]: 'occurance',
+                                      self.frequencie.columns[2]: 'precentage'},
+                            inplace = True)
+    
     return None

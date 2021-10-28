@@ -2,6 +2,14 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import src
+from dataclasses import dataclass
+
+# @dataclass
+# class StreamlitApp(src.text.Text_Column, src.numeric.NumericColumn,
+#                    src.data.Dataset, src.datetime.DateColumn)
+
+
+
 
 
 def data_logic(df, file_name):
@@ -32,7 +40,7 @@ def data_logic(df, file_name):
     # get cols dtype and render as table
     data_inst.get_cols_dtype()
     dtype_df = pd.DataFrame([data_inst.dataTypeDict]).T
-    dtype_df.rename(columns = {0: 'value'}, inplace = True)
+    dtype_df.rename(columns = {0: 'Value'}, inplace = True)
     cols_dtype_df = st.dataframe(data=dtype_df)
     # render slider
     slider = st.slider("Select the number of rows to be displayed",
@@ -53,9 +61,61 @@ def data_logic(df, file_name):
 
     # user mutli select box to choose which text columns converted to datetime
     data_inst.get_text_columns()
-    select_box = st.multiselect('Which columns do you want to convert to dates', data_inst.text_col)
+    text_columns = data_inst.text_col
+    select_box = st.multiselect('Which columns do you want to convert to dates', text_columns)
+    
+    # get numerical_cols
+    data_inst.get_numeric_columns()
+    numerical_columns = data_inst.num_col
+    return text_columns, numerical_columns
     
     
+def numeric_logic(df, numerical_columns):
+    for col in df[numerical_columns]:
+        numeric_inst = src.numeric.NumericColumn(col, df[col])
+        # create subtitle of column name
+        numeric_inst.get_name()
+        numeric_subtitle = st.subheader(numeric_inst.name)
+        # create numeric info
+        numeric_inst.get_unique()
+        numeric_inst.get_missing()
+        numeric_inst.get_zeros()
+        numeric_inst.get_negatives()
+        numeric_inst.get_mean()
+        numeric_inst.get_std()
+        numeric_inst.get_min()
+        numeric_inst.get_max()
+        numeric_inst.get_median()
+ 
+        # create dictionary with labels and values
+        col_dict = {'Number of Unique Values':numeric_inst.unique,
+                    'Number of Rows with Missing Values': numeric_inst.missing,
+                    'Number of Rows with 0': numeric_inst.zeros,
+                    'Number of rows with Negative Values': numeric_inst.negatives,
+                    'Average Value': numeric_inst.mean,
+                    'Standard Deviation Value': numeric_inst.std,
+                    'Minimum Value': numeric_inst.min,
+                    'Maximuim Value': numeric_inst.max,
+                    'Median Value': numeric_inst.median
+            }
+        
+        # parse dict to df and render
+        numeric_frame = pd.DataFrame([col_dict]).T
+        numeric_frame.rename(columns = {0: 'Value'}, inplace = True)
+        numeric_frame_df = st.dataframe(data=numeric_frame)
+        # create histogram and render
+        numeric_inst.get_histogram()
+        numeric_histogram = numeric_inst.histogram
+        
+        # create frequency table and render
+        numeric_inst.get_frequent()
+        numeric_inst.frequencie
+
+
+def text_logic(df):
+    return    
+
+
 def datetime_logic(df):
     # https://stackoverflow.com/questions/17465045/can-pandas-automatically-read-dates-from-a-csv-file
     # loop over dates
@@ -66,11 +126,9 @@ def datetime_logic(df):
         subheader = st.subheader(f'Information on {col}')
     return
 
-def numeric_logic(df):
-    return
 
-def text_logic(df):
-    return
+
+
 
 # # Display Title "Data Explorer Tool"
 # St.title('Data Explorer Tool')
@@ -124,12 +182,12 @@ def text_logic(df):
 # st.subheader(2.0 Field Name:)\n st.subtitle()
 
 
-def convert_object_datetime(df):
-    df = df.apply(lambda col: pd.to_datetime(col, errors='ignore') 
-                  if col.dtypes == object 
-                  else col, 
-                  axis=0)
-    return df
+# def convert_object_datetime(df):
+#     df = df.apply(lambda col: pd.to_datetime(col, errors='ignore') 
+#                   if col.dtypes == object 
+#                   else col, 
+#                   axis=0)
+#     return df
 
 def run():
     # web app heading
@@ -144,18 +202,21 @@ def run():
         #df = convert_object_datetime(df)
         
         # Apply data_logic here
-        data_logic(df, uploaded_file.name)
+        text_columns, numerical_columns = data_logic(df, uploaded_file.name)
+        
+        # Apply text_logic here
+        numeric_logic(df, numerical_columns)
+        
+        # Apply text_logic here
+        text_logic(df)
         
         # create dateframe
         # date_df = df.select_dtypes(include=[np.datetime64])
         # # Apply datetime_logic here
         # datetime_logic(date_df)
 
-        # # Apply numeric_logic here
-        # numeric_logic(df)
-        # # Apply text_logic here
-        # text_logic(df)
-        
+
+
         # Apply
         
 
