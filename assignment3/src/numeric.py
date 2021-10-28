@@ -106,8 +106,8 @@ class NumericColumn:
     occurences = pd.DataFrame(self.serie.value_counts()).reset_index()
     percentage = pd.DataFrame(self.serie.value_counts(normalize = True)).reset_index()
     
-    self.frequencie = occurences.merge(percentage, on = 'index', how = 'left')
-    self.frequencie.rename(columns = { self.frequencie.columns[0]: 'value',
+    self.frequency = occurences.merge(percentage, on = 'index', how = 'left')
+    self.frequency.rename(columns = { self.frequencie.columns[0]: 'value',
                                       self.frequencie.columns[1]: 'occurance',
                                       self.frequencie.columns[2]: 'precentage'},
                             inplace = True)

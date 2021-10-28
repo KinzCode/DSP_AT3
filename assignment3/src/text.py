@@ -77,7 +77,10 @@ class TextColumn:
         Return the mode value for selected column
         """
         self.mode = self.serie.mode()
-        return self.mode
+        
+        if len(self.mode) > 1:
+            self.mode =  max(set(self.serie), key=self.serie.count)
+        return 
 
     def get_barchart(self):
         """
@@ -90,5 +93,12 @@ class TextColumn:
         """
         Return the Pandas dataframe containing the occurrences and percentage of the top 20 most frequent values
         """
-        self.frequent = pd.DataFrame(self.serie.value_counts())
-        return self.frequent
+        occurences = pd.DataFrame(self.serie.value_counts()).reset_index()
+        percentage = pd.DataFrame(self.serie.value_counts(normalize = True)).reset_index()
+        
+        self.frequency = occurences.merge(percentage, on = 'index', how = 'left')
+        self.frequency.rename(columns = { self.frequencie.columns[0]: 'value',
+                                          self.frequencie.columns[1]: 'occurance',
+                                          self.frequencie.columns[2]: 'precentage'},
+                                inplace = True)
+        return

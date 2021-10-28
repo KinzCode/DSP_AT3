@@ -113,8 +113,12 @@ def numeric_logic(df, numerical_columns):
 
 
 def text_logic(df, text_columns):
+    """ 
+    Need to include mode
+    
+    """
     for col in df[text_columns]:
-        text_inst = src.numeric.NumericColumn(col, df[col])
+        text_inst = src.text.TextColumn(col, df[col])
         # get name and render
         text_inst.get_name()
         text_subtitle = st.subheader(text_inst.get_name())
@@ -128,7 +132,7 @@ def text_logic(df, text_columns):
         text_inst.get_uppercase()
         text_inst.get_alphabet()
         text_inst.get_digit()
-        text_inst.get_mode()
+        #text_inst.get_mode()
         
         # create dictionary with labels and values
         col_dict = {'Number of Unique Values': text_inst.unique,
@@ -138,8 +142,9 @@ def text_logic(df, text_columns):
                     'Number of Rows with Only Lowercases': text_inst.lower,
                     'Number of Rows with Only Uppercases': text_inst.upper,
                     'Number of Rows with Only Alphabet': text_inst.alpha,
-                    'Number of Rows with only Digits': text_inst.digit,
-                    'Mode Value': text_inst.mode
+                    'Number of Rows with only Digits': text_inst.digit
+                    # ,
+                    # 'Mode Value': text_inst.mode
                     }
         # parse dict to df and render
         text_frame = pd.DataFrame([col_dict]).T
@@ -147,13 +152,13 @@ def text_logic(df, text_columns):
         text_frame_df = st.dataframe(data=text_frame)
         
         # plot and render bar chart
-        text_inst.get_barchar()
+        text_inst.get_barchart()
         text_barchart = text_inst.barchart
         
-        # get frequencies and render
+        #get frequencies and render
         text_inst.get_frequent()
-        text_frequency = st.dataframe(date = text_inst.frequent)
-    return    
+        text_frequency = st.dataframe(data = text_inst.frequent)
+        
 
 
 def datetime_logic(df):
@@ -245,7 +250,7 @@ def run():
         text_columns, numerical_columns = data_logic(df, uploaded_file.name)
         
         # Apply text_logic here
-        numeric_logic(df, numerical_columns)
+        #numeric_logic(df, numerical_columns)
         
         # Apply text_logic here
         text_logic(df, text_columns)
