@@ -2,6 +2,14 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import src
+from dataclasses import dataclass
+
+# @dataclass
+# class StreamlitApp(src.text.Text_Column, src.numeric.NumericColumn,
+#                    src.data.Dataset, src.datetime.DateColumn)
+
+
+
 
 
 def data_logic(df, file_name):
@@ -102,7 +110,12 @@ def numeric_logic(df, numerical_columns):
         # create frequency table and render
         numeric_inst.get_frequent()
         numeric_inst.frequencie
-    
+
+
+def text_logic(df):
+    return    
+
+
 def datetime_logic(df):
     # https://stackoverflow.com/questions/17465045/can-pandas-automatically-read-dates-from-a-csv-file
     # loop over dates
@@ -115,8 +128,7 @@ def datetime_logic(df):
 
 
 
-def text_logic(df):
-    return
+
 
 # # Display Title "Data Explorer Tool"
 # St.title('Data Explorer Tool')
@@ -170,12 +182,12 @@ def text_logic(df):
 # st.subheader(2.0 Field Name:)\n st.subtitle()
 
 
-def convert_object_datetime(df):
-    df = df.apply(lambda col: pd.to_datetime(col, errors='ignore') 
-                  if col.dtypes == object 
-                  else col, 
-                  axis=0)
-    return df
+# def convert_object_datetime(df):
+#     df = df.apply(lambda col: pd.to_datetime(col, errors='ignore') 
+#                   if col.dtypes == object 
+#                   else col, 
+#                   axis=0)
+#     return df
 
 def run():
     # web app heading
@@ -195,6 +207,8 @@ def run():
         # Apply text_logic here
         numeric_logic(df, numerical_columns)
         
+        # Apply text_logic here
+        text_logic(df)
         
         # create dateframe
         # date_df = df.select_dtypes(include=[np.datetime64])
@@ -202,9 +216,7 @@ def run():
         # datetime_logic(date_df)
 
 
-        # # Apply text_logic here
-        # text_logic(df)
-        
+
         # Apply
         
 
