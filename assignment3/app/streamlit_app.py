@@ -60,6 +60,7 @@ def render_data_get_cols_dtype(data_inst):
     get list of cols dtype from Dataset class and render to app
     """ 
     # get cols dtype and render as table
+    cols_type_heading = st.write('**Type of Columns**')
     data_inst.get_cols_dtype()
     dtype_df = pd.DataFrame([data_inst.dataTypeDict]).T
     dtype_df.rename(columns = {0: 'Value'}, inplace = True)
@@ -81,6 +82,7 @@ def render_data_get_head(data_inst, slider):
     """ 
     get head of df from Dataset class and render to app
     """
+    top_rows_heading = st.write('**Top Rows of Table**')
     # get head_df and render based on slider's values
     data_inst.get_head(slider)
     head_df = st.dataframe(data = data_inst.head)
@@ -89,6 +91,7 @@ def render_data_get_tail(data_inst, slider):
     """ 
     get tail of df from Dataset class and render to app
     """
+    bottom_rows_heading = st.write('**Bottom Rows of Table**')
     # get taiL_df and render based on slider's values
     data_inst.get_tail(slider)
     tail_df = st.dataframe(data = data_inst.tail)
@@ -98,7 +101,7 @@ def render_data_get_sample(data_inst, slider):
     """ 
     get random sample of df from Dataset class and render to app
     """
-    
+    random_rows_heading = st.write('**Random Sample Rows of Table**')
     # get sample_df and render based on slider's values
     data_inst.get_sample(slider)
     sample_df = st.dataframe(data = data_inst.sample)
@@ -118,7 +121,7 @@ def data_logic(df, file_name):
     Function holding the logic rendering data.py
     """
     # Render overall information heading
-    overall_information = st.header('Overall Information')
+    overall_information = st.header('1. Overall Information')
     
     # instantiate data class
     data_inst = src.data.Dataset(file_name, df)
@@ -151,13 +154,13 @@ def data_logic(df, file_name):
     
     
 
-def render_numeric_subtitle(numeric_inst):
+def render_numeric_subtitle(numeric_inst, index):
     """ 
     get name from NumericColumn class and render to app
     """
     # create subtitle of column name
     numeric_inst.get_name()
-    numeric_subtitle = st.subheader(numeric_inst.name)    
+    numeric_subtitle = st.subheader(f'2.{index} Field Name: {numeric_inst.name}')    
 
 def render_numeric_information_df(numeric_inst):
     """ 
@@ -197,6 +200,7 @@ def render_numeric_histogram(numeric_inst):
     """ 
     get histogram from NumericColumn class and render to app
     """
+    numeric_histogram_heading = st.write('**Histogram**')
     # create histogram and render
     numeric_inst.get_histogram()
     numeric_histogram = numeric_inst.histogram
@@ -206,18 +210,19 @@ def render_numeric_frequency_table(numeric_inst):
     """ 
     get frequency df from NumericColumn class and render to app
     """
+    numeric_frequency_heading = st.write('**Most Frequent Values**')
     # create dictionary with labels and values
     numeric_inst.get_frequent()
     numeric_frequency = st.dataframe(data = numeric_inst.frequency)
     
 
 def numeric_logic(df, numerical_columns):
-    for col in df[numerical_columns]:
+    for col in enumerate(df[numerical_columns]):
         # instnatiate NumericColumn class
-        numeric_inst = src.numeric.NumericColumn(col, df[col])
+        numeric_inst = src.numeric.NumericColumn(col[1], df[col[1]])
         
         # render subtitle
-        render_numeric_subtitle(numeric_inst)
+        render_numeric_subtitle(numeric_inst, col[0])
         # render information df
         render_numeric_information_df(numeric_inst)
         # render histogram
@@ -226,14 +231,13 @@ def numeric_logic(df, numerical_columns):
         render_numeric_frequency_table(numeric_inst)
 
 
-
-def render_text_subheader(text_inst):
+def render_text_subheader(text_inst, index):
     """ 
     get name from TextColumn class and render to app
     """
     # get name and render
     text_inst.get_name()
-    text_subtitle = st.subheader(text_inst.name)
+    text_subtitle = st.subheader(f'3.{index} Field Name: {text_inst.name}')
 
 def render_text_information_df(text_inst):
     """ 
@@ -265,42 +269,54 @@ def render_text_information_df(text_inst):
                 'Number of Rows with only Digits': text_inst.digit,
                 'Mode Value': text_inst.mode
                 }
+    
     # parse dict to df and render
     text_frame = pd.DataFrame([col_dict]).T
     text_frame.rename(columns = {0: 'Value'}, inplace = True)
     text_frame_df = st.dataframe(data=text_frame)
         
-        
+
+def render_text_barchart(text_inst):
+    """ 
+    get barchart from TextColumn class and render to app
+    """
+    text_barchart_heading = st.write('**Bar Chart**')
+    # plot and render bar chart
+    text_inst.get_barchart()
+    text_barchart = text_inst.barchart
+      
+def render_text_frequency_df(text_inst):
+    """ 
+    get frequency df from TextColumn class and render to app
+    """
+    text_frequency_heading = st.write('**Most Frequent Values**')
+    # get frequencies and render
+    text_inst.get_frequent()
+    text_frequency = st.dataframe(data = text_inst.frequency)
+  
 def text_logic(df, text_columns):
     """ 
     Need to include mode
     
     """
-    for col in df[text_columns]:
+    for col in enumerate(df[text_columns]):
         # instantiate class
-        text_inst = src.text.TextColumn(col, df[col])
+        text_inst = src.text.TextColumn(col[1], df[col[1]])
         # render subheading
-        render_text_subheader(text_inst)
-        
+        render_text_subheader(text_inst, col[0])
         # render text information df
         render_text_information_df(text_inst)
+        # render text barchart
+        render_text_barchart(text_inst)
+        # render frequency df
+        render_text_frequency_df(text_inst)
         
-        # plot and render bar chart
-        text_inst.get_barchart()
-        text_barchart = text_inst.barchart
-        
-        #get frequencies and render
-        text_inst.get_frequent()
-        text_frequency = st.dataframe(data = text_inst.frequency)
-        
-
-
-def render_datetime_subheading(date_inst):
+def render_datetime_subheading(date_inst, index):
     """ 
     get name from DateColumn class and render to app
     """
     date_inst.get_name()
-    date_subheader = st.subheader(date_inst.name)
+    date_subheader = st.subheader(f'4.{index} Field Name: {date_inst.name}')
     
 def render_datetime_information_df(date_inst):
     """ 
@@ -359,28 +375,27 @@ def convert_object_datetime(df):
                   axis=0)
     return df
 
-
 def datetime_logic(df, datetime_columns):
     """
     INSERT DOCSTRING
     """
     #convert text date times to datetimes
     df = convert_object_datetime(df)
-    for col in df[datetime_columns]:
-        date_inst = src.datetime.DateColumn(col, df[col])
+    
+    for col in enumerate(df[datetime_columns]):
+        date_inst = src.datetime.DateColumn(col[1], df[col[1]])
         # render datetime subheading
-        render_datetime_subheading(date_inst)
+        render_datetime_subheading(date_inst, col[0])
         # render information df
         render_datetime_information_df(date_inst)
         # render datetime barchart
         render_datetime_barchart(date_inst)
         # render datetime frequency df
         render_datetime_frequency_df(date_inst)
-
-        
+     
 def main():
     # web app heading
-    st.title('CSV Explorer')
+    st.title('Data Explorer Tool')
     # upload csv widget - must only accept CSV
     uploaded_file = st.file_uploader("Upload CSV", ['csv'])
     # create logic to forward application
