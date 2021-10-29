@@ -53,7 +53,8 @@ def render_data_get_cols_list(data_inst):
     # get list of columns and render
     data_inst.get_cols_list()
     cols_list_heading = st.write(f'**List of Columns:**')
-    cols_list_str = st.write(data_inst.cols_list)
+    #data_inst.cols_list
+    cols_list_str = st.write(', '.join(data_inst.cols_list))
 
 def render_data_get_cols_dtype(data_inst):
     """ 
@@ -402,6 +403,7 @@ def main():
     if uploaded_file is not None:
         # ensure to parse dates as datetime
         df = pd.read_csv(uploaded_file, parse_dates = True)
+        
         # Apply data_logic here
         text_columns, numerical_columns, datetime_columns = data_logic(df, uploaded_file.name)
         # Apply text_logic here

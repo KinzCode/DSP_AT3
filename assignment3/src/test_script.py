@@ -12,8 +12,9 @@ import src
 
 df = pd.read_csv('pinnacle_odds_sample.csv')
 
-for col in df:
-    print(enumerate(col)[0])
+x = ['red', 'blue', 'yello']
+y = ','.join(x)
+
 
 # data_inst = src.data.Dataset('pin', df)
 # # data_inst.get_text_columns()

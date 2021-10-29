@@ -95,9 +95,8 @@ class DateColumn:
     """
     Return the generated bar chart for selected column
     """
-    # create basic bar chart on series with streamlit
-    self.barchart = st.bar_chart(self.serie)
-
+    occurences = pd.DataFrame(self.serie.value_counts())
+    self.barchart = st.bar_chart(occurences)
     return None
 
   def get_frequent(self):

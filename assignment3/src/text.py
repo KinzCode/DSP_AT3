@@ -77,15 +77,14 @@ class TextColumn:
         """
         self.mode = str(self.serie.mode())
         
-        # if len(self.mode) > 1:
-        #     self.mode =  max(set(self.serie), key=self.serie.count)
         return None
 
     def get_barchart(self):
         """
         Return the generated bar chart for selected column
         """
-        self.barchart = st.bar_chart(self.serie)
+        occurences = pd.DataFrame(self.serie.value_counts())
+        self.barchart = st.bar_chart(occurences)
         return None
 
     def get_frequent(self):
