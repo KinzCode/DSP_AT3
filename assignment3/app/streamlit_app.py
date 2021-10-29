@@ -62,12 +62,11 @@ def data_logic(df, file_name):
     # user mutli select box to choose which text columns converted to datetime
     data_inst.get_text_columns()
     text_columns = data_inst.text_col
-    select_box = st.multiselect('Which columns do you want to convert to dates', text_columns)
-    
+    datetime_columns = st.multiselect('Which columns do you want to convert to dates', text_columns)
     # get numerical_cols
     data_inst.get_numeric_columns()
     numerical_columns = data_inst.num_col
-    return text_columns, numerical_columns
+    return text_columns, numerical_columns, datetime_columns
     
     
 def numeric_logic(df, numerical_columns):
@@ -121,7 +120,7 @@ def text_logic(df, text_columns):
         text_inst = src.text.TextColumn(col, df[col])
         # get name and render
         text_inst.get_name()
-        text_subtitle = st.subheader(text_inst.get_name())
+        text_subtitle = st.subheader(text_inst.name)
         
         # create text info
         text_inst.get_unique()
@@ -157,21 +156,21 @@ def text_logic(df, text_columns):
         
         #get frequencies and render
         text_inst.get_frequent()
-        text_frequency = st.dataframe(data = text_inst.frequent)
+        text_frequency = st.dataframe(data = text_inst.frequency)
         
 
 
-def datetime_logic(df, date_columns):
+def datetime_logic(df, datetime_columns):
     """
     INSERT DOCSTRING
     """
     # https://stackoverflow.com/questions/17465045/can-pandas-automatically-read-dates-from-a-csv-file
-    # loop over dates
-    #st.subheader('Information on Dates')
-    #date_column = st.write(df)
-    for col in df[date_columns]:
+    #convert text date times to datetimes
+    df = convert_object_datetime(df)
+    for col in df[datetime_columns]:
         date_inst = src.datetime.DateColumn(col, df[col])
-        date_subheader = st.subheader(date_inst.get_name())
+        date_inst.get_name()
+        date_subheader = st.subheader(date_inst.name)
         
         # create date info
         date_inst.get_unique()
@@ -194,78 +193,36 @@ def datetime_logic(df, date_columns):
                     'Number of Rows with 1970-01-01': date_inst.empty_1970,
                     'Minimum Value': date_inst.min,
                     'Maximum Value': date_inst.max
-
                     }
+        
+
         # parse dict to df and render
-        date_frame = pd.DataFrame([col_dict]).T
+        date_frame = pd.DataFrame([col_dict]).transpose()
         date_frame.rename(columns = {0: 'Value'}, inplace = True)
         date_frame_df = st.dataframe(data=date_frame)
+       
+        # plot and render bar chart
+        date_inst.get_barchart()
+        date_barchart = date_inst.barchart
         
-        
+        #get frequencies and render
+        date_inst.get_frequent()
+        date_frequency = st.dataframe(data = date_inst.frequency)
+
     return
 
 
 
 
 
-# # Display Title "Data Explorer Tool"
-# St.title('Data Explorer Tool')
-
-# # File uploader
-# st.file_uploader('Choose a CSV file')
-
-# # Display header called “Overall Information”
-# st.header('1.Overall Information')
-
-# # Display subheader called “Name of Table”
-# st.subheader('Name of Table:')
-
-# # Display subheader called “Number of Rows”
-# st.subheader('Number of Rows:')
-
-# # Display subheader called “Number of Columns”
-# st.subheader('Number of Columns:')
-
-# # Display subheader called “Number of Duplicated Rows”
-# st.subheader('Number of Duplicated Rows:')
-
-# # Display subheader called “Number of Rows with Missing Values”
-# st.subheader('Number of Rows with Missing Values:')
-
-# # Display subheader called “List of Columns”
-# st.subheader('List of Columns:')
-
-# # Display subheader called “Type of Columns”
-# st.subheader('Type of Columns:')
-
-# # Display Slider for selecting number of rows to be displayed
-# st.slider('Select the number of rows to be displayed',0,50,5 )
-
-# # Display subheader called “Top Rows of Table”
-# st.subheader('Top Rows of Table:')
-
-# # Display subheader called “Bottom Rows of Table”
-# st.subheader('Bottom Rows of Table:')
-
-# # Display subheader called “Random Sample Rows of Table”
-# st.subheader('Random Sample Rows of Table:')
-
-# # Display a multi select box for choosing which text columns will be converted to datetime
-# st.multiselect('Which columns do you want to convert to dates', [])
-
-# # Display header called “Numeric Column Information”
-# st.header('2.Numeric Column Information')
-
-# # Display name of column as subtitle
-# st.subheader(2.0 Field Name:)\n st.subtitle()
+def convert_object_datetime(df):
+    df = df.apply(lambda col: pd.to_datetime(col, errors='ignore') 
+                  if col.dtypes == object 
+                  else col, 
+                  axis=0)
+    return df
 
 
-# def convert_object_datetime(df):
-#     df = df.apply(lambda col: pd.to_datetime(col, errors='ignore') 
-#                   if col.dtypes == object 
-#                   else col, 
-#                   axis=0)
-#     return df
 
 def run():
     # web app heading
@@ -278,9 +235,9 @@ def run():
         df = pd.read_csv(uploaded_file, parse_dates = True)
         # convert object to datetime
         #df = convert_object_datetime(df)
-        
+
         # Apply data_logic here
-        text_columns, numerical_columns = data_logic(df, uploaded_file.name)
+        text_columns, numerical_columns, datetime_columns = data_logic(df, uploaded_file.name)
         
         # Apply text_logic here
         numeric_logic(df, numerical_columns)
@@ -288,18 +245,13 @@ def run():
         # Apply text_logic here
         text_logic(df, text_columns)
         
-        # create dateframe
-        # date_df = df.select_dtypes(include=[np.datetime64])
-        # # Apply datetime_logic here
-        # datetime_logic(date_df)
-
-
-
-        # Apply
         
+        # Apply datetime_logic here
+        datetime_logic(df, datetime_columns)
 
-    
 
+
+  
 if __name__ == '__main__':
     run()
     

@@ -97,8 +97,8 @@ class TextColumn:
         percentage = pd.DataFrame(self.serie.value_counts(normalize = True)).reset_index()
         
         self.frequency = occurences.merge(percentage, on = 'index', how = 'left')
-        self.frequency.rename(columns = { self.frequencie.columns[0]: 'value',
-                                          self.frequencie.columns[1]: 'occurance',
-                                          self.frequencie.columns[2]: 'precentage'},
+        self.frequency.rename(columns = { self.frequency.columns[0]: 'value',
+                                          self.frequency.columns[1]: 'occurance',
+                                          self.frequency.columns[2]: 'precentage'},
                                 inplace = True)
         return
