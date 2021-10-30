@@ -12,9 +12,11 @@ import src
 
 df = pd.read_csv('pinnacle_odds_sample.csv')
 
-text_columns = ['red', 'blue', 'yello']
-datetime_columns = ['red']
-x = [i for i in text_columns if i not in datetime_columns]
+rng = pd.date_range('2100-02-24', periods=5, freq='T')
+df = pd.DataFrame({ 'Date': rng, 'Val': np.random.randn(len(rng))})
+serie = df['Date']
+
+weekend = str(len(set(serie) - set(serie.dt.weekday)))
 
 
 # data_inst = src.data.Dataset('pin', df)
