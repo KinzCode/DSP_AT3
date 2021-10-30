@@ -12,8 +12,9 @@ import src
 
 df = pd.read_csv('pinnacle_odds_sample.csv')
 
-x = ['red', 'blue', 'yello']
-y = ','.join(x)
+text_columns = ['red', 'blue', 'yello']
+datetime_columns = ['red']
+x = [i for i in text_columns if i not in datetime_columns]
 
 
 # data_inst = src.data.Dataset('pin', df)

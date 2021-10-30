@@ -4,7 +4,6 @@ import numpy as np
 import src
 
 
-
 def render_data_get_name(data_inst):
     """
     get name from DataSet class and render to app
@@ -115,7 +114,13 @@ def render_data_select_box(data_inst):
     data_inst.get_text_columns()
     text_columns = data_inst.text_col
     datetime_columns = st.multiselect('Which columns do you want to convert to dates', text_columns)
+    
+    # remove datetime col from text_columns
+    text_columns = [i for i in text_columns if i not in datetime_columns]
+
+
     return text_columns, datetime_columns
+
     
 def data_logic(df, file_name):
     """ 
@@ -143,16 +148,16 @@ def data_logic(df, file_name):
     render_data_get_head(data_inst, slider)
     render_data_get_tail(data_inst, slider)
     render_data_get_sample(data_inst, slider)
-
+    
     #render select box and create text & datetime column lists
     text_columns, datetime_columns = render_data_select_box(data_inst)
-
+    
     # get numerical_cols
     data_inst.get_numeric_columns()
     numerical_columns = data_inst.num_col
     
     return text_columns, numerical_columns, datetime_columns
-    
+
     
 
 def render_numeric_subtitle(numeric_inst, index):
@@ -403,7 +408,7 @@ def main():
     if uploaded_file is not None:
         # ensure to parse dates as datetime
         df = pd.read_csv(uploaded_file, parse_dates = True)
-        
+
         # Apply data_logic here
         text_columns, numerical_columns, datetime_columns = data_logic(df, uploaded_file.name)
         # Apply text_logic here
