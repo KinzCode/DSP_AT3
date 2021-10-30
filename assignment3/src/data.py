@@ -14,7 +14,7 @@ class Dataset:
       """
       Return filename of loaded dataset
       """
-      self.name = self.name
+      self.data_name = self.name
       return None
   
     def get_n_rows(self):
