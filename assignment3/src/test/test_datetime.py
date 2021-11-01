@@ -2,6 +2,10 @@ import pandas as pd
 import numpy as np
 import unittest
 
+import sys
+sys.path.append('../')
+
+from datetime import DateColumn
 
 
 class TestGetName(unittest.TestCase):
@@ -14,7 +18,6 @@ class TestGetName(unittest.TestCase):
         date_inst.get_name()
         
         self.assertEqual('Date', date_inst.name)
-
 
     
 class TestGetUnique(unittest.TestCase):
@@ -63,6 +66,7 @@ class TestGetWeekday(unittest.TestCase):
         
 
         
-        
-        
+if __name__ == '__main__':
+    unittest.main()  
+  
     

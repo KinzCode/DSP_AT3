@@ -75,8 +75,11 @@ class TextColumn:
         """
         Return the mode value for selected column
         """
-        self.mode = str(self.serie.mode())
-        
+        self.mode = self.serie.mode()
+        if len(self.mode) > 1:
+            self.mode = str(self.serie.mode()[0])
+        else:
+            self.mode = str(self.mode)
         return None
 
     def get_barchart(self):

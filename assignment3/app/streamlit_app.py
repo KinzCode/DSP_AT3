@@ -10,7 +10,7 @@ def render_data_get_name(data_inst):
     """
     # get name and render
     data_inst.get_name()
-    file_name = st.write(f'**Name of Table:** {data_inst.name}')
+    file_name = st.write(f'**Name of Table:** {data_inst.data_name}')
 
 def render_data_get_n_rows(data_inst):
     """ 
@@ -124,7 +124,7 @@ def render_data_select_box(data_inst):
     
 def data_logic(df, file_name):
     """ 
-    Function holding the logic rendering data.py
+    Function holder for the data rendering
     """
     # Render overall information heading
     overall_information = st.header('1. Overall Information')
@@ -223,10 +223,12 @@ def render_numeric_frequency_table(numeric_inst):
     
 
 def numeric_logic(df, numerical_columns):
+    """ 
+    Function holder for the numeric rendering
+    """
     for col in enumerate(df[numerical_columns]):
         # instnatiate NumericColumn class
         numeric_inst = src.numeric.NumericColumn(col[1], df[col[1]])
-        
         # render subtitle
         render_numeric_subtitle(numeric_inst, col[0])
         # render information df
@@ -260,9 +262,9 @@ def render_text_information_df(text_inst):
     text_inst.get_digit()
     text_inst.get_mode()
     
-    # create provision for mode
-    if len(text_inst.mode) > 1:
-        text_inst.mode = "No singular value"
+    # # create provision for mode
+    # if len(text_inst.mode) > 1:
+    #     text_inst.mode = text_inst.mode[0]
     
     # create dictionary with labels and values
     col_dict = {'Number of Unique Values': text_inst.unique,
@@ -302,7 +304,7 @@ def render_text_frequency_df(text_inst):
   
 def text_logic(df, text_columns):
     """ 
-    Need to include mode
+    Function holder for the text rendering
     
     """
     for col in enumerate(df[text_columns]):
@@ -383,7 +385,7 @@ def convert_object_datetime(df):
 
 def datetime_logic(df, datetime_columns):
     """
-    INSERT DOCSTRING
+    Function holder for the datetime rendering
     """
     #convert text date times to datetimes
     df = convert_object_datetime(df)
