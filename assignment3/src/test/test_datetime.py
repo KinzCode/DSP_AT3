@@ -2,6 +2,10 @@ import pandas as pd
 import numpy as np
 import unittest
 
+import sys
+sys.path.append('../')
+
+from datetime import DateColumn
 
 
 class TestGetName(unittest.TestCase):
@@ -17,49 +21,49 @@ class TestGetName(unittest.TestCase):
 
 
     
-class TestGetUnique(unittest.TestCase):
-    def test_get_unique(self):
-        # Create sample df
-        rng = pd.date_range('2015-02-24', periods=5, freq='T')
-        df = pd.DataFrame({ 'Date': rng, 'Val': np.random.randn(len(rng))})
+# class TestGetUnique(unittest.TestCase):
+#     def test_get_unique(self):
+#         # Create sample df
+#         rng = pd.date_range('2015-02-24', periods=5, freq='T')
+#         df = pd.DataFrame({ 'Date': rng, 'Val': np.random.randn(len(rng))})
         
-        date_inst = DateColumn('Date', df)
-        date_inst.get_unique()
+#         date_inst = DateColumn('Date', df)
+#         date_inst.get_unique()
         
-        self.assertEqual('5', date_inst.unique)
+#         self.assertEqual('5', date_inst.unique)
         
-class TestGetMissing(unittest.TestCase):
-    def test_get_missing(self):
-        # Create sample df
-        rng = pd.date_range('2015-02-24', periods=5, freq='T')
-        df = pd.DataFrame({ 'Date': rng, 'Val': np.random.randn(len(rng))})
+# class TestGetMissing(unittest.TestCase):
+#     def test_get_missing(self):
+#         # Create sample df
+#         rng = pd.date_range('2015-02-24', periods=5, freq='T')
+#         df = pd.DataFrame({ 'Date': rng, 'Val': np.random.randn(len(rng))})
         
-        date_inst = DateColumn('Date', df)
-        date_inst.get_missing()
+#         date_inst = DateColumn('Date', df)
+#         date_inst.get_missing()
         
-        self.assertEqual('0', date_inst.missing)
+#         self.assertEqual('0', date_inst.missing)
 
-class TestGetWeekend(unittest.TestCase):
-    def test_get_weekend(self):
-        # Create sample df
-        rng = pd.date_range('2015-02-24', periods=5, freq='T')
-        df = pd.DataFrame({ 'Date': rng, 'Val': np.random.randn(len(rng))})
+# class TestGetWeekend(unittest.TestCase):
+#     def test_get_weekend(self):
+#         # Create sample df
+#         rng = pd.date_range('2015-02-24', periods=5, freq='T')
+#         df = pd.DataFrame({ 'Date': rng, 'Val': np.random.randn(len(rng))})
         
-        date_inst = DateColumn('Date', df)
-        date_inst.get_weekend()
+#         date_inst = DateColumn('Date', df)
+#         date_inst.get_weekend()
         
-        self.assertEqual('5', date_inst.weekend)
+#         self.assertEqual('5', date_inst.weekend)
         
-class TestGetWeekday(unittest.TestCase):
-    def test_get_weekday(self):
-        # Create sample df
-        rng = pd.date_range('2015-02-24', periods=5, freq='T')
-        df = pd.DataFrame({ 'Date': rng, 'Val': np.random.randn(len(rng))})
+# class TestGetWeekday(unittest.TestCase):
+#     def test_get_weekday(self):
+#         # Create sample df
+#         rng = pd.date_range('2015-02-24', periods=5, freq='T')
+#         df = pd.DataFrame({ 'Date': rng, 'Val': np.random.randn(len(rng))})
         
-        date_inst = DateColumn('Date', df)
-        date_inst.get_weekday()
+#         date_inst = DateColumn('Date', df)
+#         date_inst.get_weekday()
         
-        self.assertEqual('0', date_inst.weekday)
+#         self.assertEqual('0', date_inst.weekday)
         
 
         

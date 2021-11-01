@@ -1,5 +1,9 @@
 # To be filled by students
 import unittest
+
+import sys
+sys.path.append('../')
+
 from data import Dataset
 import pandas as pd
 
