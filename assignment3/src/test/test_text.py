@@ -1,3 +1,6 @@
+
+import sys
+sys.path.append('../')
 from text import *
 
 import unittest
