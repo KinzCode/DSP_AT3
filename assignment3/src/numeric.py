@@ -21,7 +21,7 @@ class NumericColumn:
     """
     Return number of unique values for selected column
     """
-    self.unique = self.serie.nunique()
+    self.unique = self.serie.unique()
     return None
 
   def get_missing(self):
