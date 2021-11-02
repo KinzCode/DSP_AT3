@@ -9,7 +9,6 @@ A Streamlit powered application designed to simplify the EDA process. The applic
 Ben McKinnon, Navid Mehnati, Shangqing Yang, Yaqing Zhang
 
 # Structure
-.
     ├── app     <- Folder containing streamlit_app.py
         ├── streamlit_app.py     <- The script containing the GUI and run logic for the application
     ├── src     <- The Folder containing scripts that contain classes used within the streamlit application and the test folder containing unit-tests.
