@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import unittest
+import streamlit as st
 
 import sys
 sys.path.append('../')
@@ -124,7 +125,19 @@ class TestGetMax(unittest.TestCase):
         date_inst.get_max()
         
         self.assertEqual('2021-11-08 00:00:00', date_inst.max)
+
+class TestGetBarchart(unittest.TestCase):
+    def test_get_barchart(self):
+        df = pd.DataFrame({'Date': ['6/11/2021', '7/11/2021', '8/11/2021']})
+        df['Date'] = pd.to_datetime(df['Date'], format="%d/%m/%Y") 
         
+        result = st.bar_chart(df['Date'].value_counts())
+        
+        date_inst = DateColumn('Date', df['Date'])
+        date_inst.get_barchart()
+        
+        self.assertEqual(result, date_inst.barchart)
+
 class TestGetFrequent(unittest.TestCase):
     def test_get_frequent(self):
         df = pd.DataFrame({'Date': ['6/11/2021','7/11/2021','8/11/2021', '8/11/2021']})
