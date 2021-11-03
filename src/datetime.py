@@ -39,7 +39,7 @@ class DateColumn:
     Return number of occurrence of days falling during weekend (Saturday and Sunday)
     """
     # get length of series and subract set of weekdays to get weekends
-    self.weekend = str(len(set(self.serie) - set(self.serie.dt.weekday)))
+    self.weekend = str(len(set(self.serie) - set(self.serie[self.serie.dt.weekday < 5])))
     return None
 
   def get_weekday(self):
@@ -47,7 +47,7 @@ class DateColumn:
     Return number of weekday days (not Saturday or Sunday)
     """
     # use pandas functions to get weekdays
-    self.weekday = str(len(self.serie.dt.weekday))
+    self.weekday = str(len(self.serie[self.serie.dt.weekday < 5]))
 
     return None
   
