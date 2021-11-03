@@ -13,11 +13,7 @@ import src
 df = pd.read_csv('pinnacle_odds_sample.csv')
 
 
-text_inst = src.text.TextColumn('cool', df['RedCorner'])
-# text_inst.get_alphabet()
+serie = df['BlueCornerOdds']
 
-# print(text_inst.alpha)
-
-text_inst.get_mode()
-text_inst.mode
-print(text_inst.mode)
+n = 5
+x = df['BlueCornerOdds'].value_counts().loc[lambda x: np.cumsum(x) < 20]

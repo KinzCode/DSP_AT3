@@ -9,19 +9,19 @@ A Streamlit powered application designed to simplify the EDA process. The applic
 Ben McKinnon, Navid Mehnati, Shangqing Yang, Yaqing Zhang
 
 # Structure
-    ├── app     		<- Folder containing streamlit_app.py
-        ├── streamlit_app.py     	<- The script containing the GUI and run logic for the application
+    ├── app     		<- Folder containing streamlit_app.py.
+        ├── streamlit_app.py     	<- The script containing the GUI and run logic for the application.
     ├── src    		<- The Folder containing scripts that contain classes used within the streamlit application and the test folder containing unit-tests.
-        ├── __init__.py     	<- The script hosting which .py files are included in the src module
+        ├── __init__.py     	<- The script hosting which .py files are included in the src module.
         ├── data.py     		<- The script containing the Dataset class.
         ├── datetime.py     	<- The script containing the DateColumn class.
         ├── numeric.py     	<- The script containing the NumericColumn class.
         ├── text.py     		<- The script containing the TextColumn class.
         ├──  test     		<- The folder containing unit tests for the respective .py scripts containing classes used within the streamlit_app.py file.
-            ├── test_data.py     	<- The script containing unit tests for data.py
-            ├── test_datetime.py    <- The script containing unit tests for datetime.py
-            ├── test_numeric.py      <- The script containing unit tests for numeric.py
-            ├── test_text.py     	<- The script containing unit tests for test.py
+            ├── test_data.py     	<- The script containing unit tests for data.py.
+            ├── test_datetime.py    <- The script containing unit tests for datetime.py.
+            ├── test_numeric.py      <- The script containing unit tests for numeric.py.
+            ├── test_text.py     	<- The script containing unit tests for test.py.
         ├── docker-compose.yml  
     ├── DockerFile     		<- The file containing the docker logic to set up the container.                        
     ├── requirements.txt     	<- The package version requirements used within the DockerFile setup.
