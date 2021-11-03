@@ -101,7 +101,18 @@ class TestGetEmpty1970(unittest.TestCase):
         date_inst = DateColumn('Date', df['Date'])
         date_inst.get_empty_1970()
         
-        self.assertEqual('1', date_inst.empty_1970)  
+        self.assertEqual('1', date_inst.empty_1970)
+        
+class TestGetMin(unittest.TestCase):
+    def test_get_min(self):
+        # Create sample df
+        df = pd.DataFrame({'Date': ['6/11/2021', '7/11/2021', '8/11/2021']})
+        df['Date'] = pd.to_datetime(df['Date'], format="%d/%m/%Y")
+        
+        date_inst = DateColumn('Date', df['Date'])
+        date_inst.get_min()
+        
+        self.assertEqual('2021-11-06 00:00:00', date_inst.min)
 
         
 if __name__ == '__main__':
