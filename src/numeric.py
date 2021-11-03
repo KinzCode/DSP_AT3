@@ -21,7 +21,7 @@ class NumericColumn:
     """
     Return number of unique values for selected column
     """
-    self.unique = self.serie.unique()
+    self.unique = len(self.serie.unique())
     return None
 
   def get_missing(self):
@@ -92,9 +92,10 @@ class NumericColumn:
     Return the generated histogram for selected column
     """
     hist_values = np.histogram(self.serie,
-                                bins=50,
-                                range=(0,50)
-                                )[0]
+                                bins=50)[0]
+    
+    
+    #hist_values = self.serie.value_counts()(bins = 50)
     
     self.histogram = st.bar_chart(hist_values)
     return None
