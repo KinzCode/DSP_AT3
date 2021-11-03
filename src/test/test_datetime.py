@@ -81,7 +81,27 @@ class TestGetFuture(unittest.TestCase):
         
         self.assertEqual('3', date_inst.future)  
 
+class TestGetEmpty1900(unittest.TestCase):
+    def test_get_empty_1900(self):
+        # Create sample df
+        df = pd.DataFrame({'Date': ['1900-01-01', '1900-01-01' ,'2021-01-02']})
+        df['Date'] = pd.to_datetime(df['Date'], format="%Y/%m/%d")
+        
+        date_inst = DateColumn('Date', df['Date'])
+        date_inst.get_empty_1900()
+        
+        self.assertEqual('2', date_inst.empty_1900)  
 
+class TestGetEmpty1970(unittest.TestCase):
+    def test_get_empty_1970(self):
+        # Create sample df
+        df = pd.DataFrame({'Date': ['1970-01-01', '1900-01-01' ,'2021-01-02']})
+        df['Date'] = pd.to_datetime(df['Date'], format="%Y/%m/%d")
+        
+        date_inst = DateColumn('Date', df['Date'])
+        date_inst.get_empty_1970()
+        
+        self.assertEqual('1', date_inst.empty_1970)  
 
         
 if __name__ == '__main__':
