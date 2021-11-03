@@ -1,4 +1,3 @@
-# numeric
 import streamlit as st
 from dataclasses import dataclass
 import pandas as pd
@@ -104,7 +103,7 @@ class NumericColumn:
     """
     Return the Pandas dataframe containing the occurrences and percentage of the top 20 most frequent values
     """
-    occurences = pd.DataFrame(self.serie.value_counts()).reset_index()
+    occurences = pd.DataFrame(self.serie.value_counts().loc[lambda x: np.cumsum(x) < 21].reset_index())
     percentage = pd.DataFrame(self.serie.value_counts(normalize = True)).reset_index()
     
     self.frequency = occurences.merge(percentage, on = 'index', how = 'left')
