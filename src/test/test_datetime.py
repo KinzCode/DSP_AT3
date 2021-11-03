@@ -59,7 +59,6 @@ class TestGetWeekend(unittest.TestCase):
 class TestGetWeekday(unittest.TestCase):
     def test_get_weekday(self):
         # Create sample df
-        # Create sample df
         df = pd.DataFrame({'Date': ['6/11/2021', '7/11/2021', '8/11/2021'],
                     'value': [2, 3, 4]})
         df['Date'] = pd.to_datetime(df['Date'], format="%d/%m/%Y")
@@ -70,7 +69,17 @@ class TestGetWeekday(unittest.TestCase):
         self.assertEqual('1', date_inst.weekday)
         
 
-
+class TestGetFuture(unittest.TestCase):
+    def test_get_future(self):
+        # Create sample df
+        df = pd.DataFrame({'Date': ['6/11/2021', '7/11/2021', '8/11/2021'],
+                    'value': [2, 3, 4]})
+        df['Date'] = pd.to_datetime(df['Date'], format="%d/%m/%Y")
+        
+        date_inst = DateColumn('Date', df['Date'])
+        date_inst.get_future()
+        
+        self.assertEqual('3', date_inst.future)  
 
 
 
