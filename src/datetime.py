@@ -47,7 +47,7 @@ class DateColumn:
     Return number of weekday days (not Saturday or Sunday)
     """
     # use pandas functions to get weekdays
-    self.weekday = str(len(self.serie.dt.weekday))
+    self.weekday = str(len(self.serie[self.serie.dt.weekday < 5]))
 
     return None
   

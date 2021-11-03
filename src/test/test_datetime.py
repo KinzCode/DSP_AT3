@@ -51,23 +51,23 @@ class TestGetWeekend(unittest.TestCase):
         
         df['Date'] = pd.to_datetime(df['Date'], format="%d/%m/%Y")
         
-        
         date_inst = DateColumn('Date', df['Date'])
         date_inst.get_weekend()
         
         self.assertEqual('2', date_inst.weekend)
         
-# class TestGetWeekday(unittest.TestCase):
-#     def test_get_weekday(self):
-#         # Create sample df
-#         # Create sample df
-#         df = pd.DataFrame({'Date': ['6/11/2021', '7/11/2021', '8/11/2021'],
-#                    'value': [2, 3, 4]})
+class TestGetWeekday(unittest.TestCase):
+    def test_get_weekday(self):
+        # Create sample df
+        # Create sample df
+        df = pd.DataFrame({'Date': ['6/11/2021', '7/11/2021', '8/11/2021'],
+                    'value': [2, 3, 4]})
+        df['Date'] = pd.to_datetime(df['Date'], format="%d/%m/%Y")
         
-#         date_inst = DateColumn('Date', df['Date'])
-#         date_inst.get_weekday()
+        date_inst = DateColumn('Date', df['Date'])
+        date_inst.get_weekday()
         
-#         self.assertEqual('1', date_inst.weekday)
+        self.assertEqual('1', date_inst.weekday)
         
 
 
