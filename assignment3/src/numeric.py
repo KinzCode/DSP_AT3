@@ -1,4 +1,3 @@
-# numeric
 import streamlit as st
 from dataclasses import dataclass
 import pandas as pd
@@ -21,7 +20,7 @@ class NumericColumn:
     """
     Return number of unique values for selected column
     """
-    self.unique = self.serie.nunique()
+    self.unique = len(self.serie.unique())
     return None
 
   def get_missing(self):
@@ -92,9 +91,10 @@ class NumericColumn:
     Return the generated histogram for selected column
     """
     hist_values = np.histogram(self.serie,
-                                bins=50,
-                                range=(0,50)
-                                )[0]
+                                bins=50)[0]
+    
+    
+    #hist_values = self.serie.value_counts()(bins = 50)
     
     self.histogram = st.bar_chart(hist_values)
     return None
@@ -103,7 +103,7 @@ class NumericColumn:
     """
     Return the Pandas dataframe containing the occurrences and percentage of the top 20 most frequent values
     """
-    occurences = pd.DataFrame(self.serie.value_counts()).reset_index()
+    occurences = pd.DataFrame(self.serie.value_counts().loc[lambda x: np.cumsum(x) < 21].reset_index())
     percentage = pd.DataFrame(self.serie.value_counts(normalize = True)).reset_index()
     
     self.frequency = occurences.merge(percentage, on = 'index', how = 'left')
