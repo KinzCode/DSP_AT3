@@ -1,4 +1,3 @@
-# To be filled by students
 import streamlit as st
 from dataclasses import dataclass
 import pandas as pd
@@ -29,6 +28,7 @@ class TextColumn:
         """
         self.missing = str(self.serie.isnull().sum())
         return None
+
     def get_empty(self):
         """
         Return number of rows with empty string for selected column
@@ -47,28 +47,28 @@ class TextColumn:
         """
         Return number of rows with only lower case characters for selected column
         """
-        self.lower = str(len(self.serie[self.serie.apply(lambda x: True if x.islower() else False)]))
+        self.lower = str(len(self.serie[self.serie.apply(lambda x: True if str(x).islower() else False)]))
         return None
 
     def get_uppercase(self):
         """
         Return number of rows with only upper case characters for selected column
         """
-        self.upper = str(len(self.serie[self.serie.apply(lambda x: True if x.isupper() else False)]))
+        self.upper = str(len(self.serie[self.serie.apply(lambda x: True if str(x).isupper() else False)]))
         return None
 
     def get_alphabet(self):
         """
         Return number of rows with only alphabet characters for selected column
         """
-        self.alpha = str(len(self.serie[self.serie.apply(lambda x: True if x.isalpha() else False)]))
+        self.alpha = str(len(self.serie[self.serie.apply(lambda x: True if str(x).isalpha() else False)]))
         return None
 
     def get_digit(self):
         """
         Return number of rows with only numbers as characters for selected column
         """
-        self.digit = str(len(self.serie[self.serie.apply(lambda x: True if x.isdigit() else False)]))
+        self.digit = str(len(self.serie[self.serie.apply(lambda x: True if str(x).isdigit() else False)]))
         return None
 
     def get_mode(self):
@@ -79,7 +79,7 @@ class TextColumn:
         if len(self.mode) > 1:
             self.mode = str(self.serie.mode()[0])
         else:
-            self.mode = str(self.mode)
+            self.mode = str(self.mode[0])
         return None
 
     def get_barchart(self):
@@ -95,11 +95,11 @@ class TextColumn:
         Return the Pandas dataframe containing the occurrences and percentage of the top 20 most frequent values
         """
         occurences = pd.DataFrame(self.serie.value_counts()).reset_index()
-        percentage = pd.DataFrame(self.serie.value_counts(normalize = True)).reset_index()
-        
-        self.frequency = occurences.merge(percentage, on = 'index', how = 'left')
-        self.frequency.rename(columns = { self.frequency.columns[0]: 'value',
-                                          self.frequency.columns[1]: 'occurance',
-                                          self.frequency.columns[2]: 'precentage'},
-                                inplace = True)
+        percentage = pd.DataFrame(self.serie.value_counts(normalize=True)).reset_index()
+
+        self.frequency = occurences.merge(percentage, on='index', how='left')
+        self.frequency.rename(columns={self.frequency.columns[0]: 'value',
+                                       self.frequency.columns[1]: 'occurance',
+                                       self.frequency.columns[2]: 'precentage'},
+                              inplace=True)
         return None
