@@ -1,103 +1,76 @@
+import unittest
+import pandas as pd
+import streamlit as st
 
 import sys
-sys.path.append('../')
-from text import *
 
-import unittest
+sys.path.append('../')
+
+from src.text import TextColumn
 
 
 class MyClass(unittest.TestCase):
 
     @classmethod
-    def setUpClass(cls):
-        print("====> start class")
-
-        col_name = 'BlueCorner'
-        df = pd.read_csv('pinnacle_odds_sample.csv')
-        serie = df[col_name]
-        cls.textColumn = TextColumn(col_name, serie)
+    def setUpClass(self):
+        data = pd.Series(['DSP', 'Shangqing', 'Navid', None, 'DSP', " "])
+        test_column_name = "Text_Column"
+        self.text = TextColumn(test_column_name, data)
 
     @classmethod
     def tearDownClass(cls):
         print("====> end class")
 
     def test_get_name(self):
-        """
-          Return name of selected column
-        """
-        name = self.textColumn.get_name()
-        # self.assertEqual(name, 'TotalsLine')
+        self.text.get_name()
+        self.assertEqual(self.text.name, "Text_Column")
 
     def test_get_unique(self):
-        """
-          Return number of unique values for selected column
-        """
-        unique = self.textColumn.get_unique()
-        print(unique)
-        # self.assertEqual(unique, 42)
+        self.text.get_unique()
+        self.assertEqual(self.text.unique, '5')
 
     def test_get_missing(self):
-        """
-        Return number of missing values for selected column
-        """
-        self.missing = self.textColumn.get_missing()
-        # self.assertEqual(self.missing, 29)
+        self.text.get_missing()
+        self.assertEqual(self.text.missing, '1')
 
     def test_get_empty(self):
-        """
-         Return number of rows with empty string for selected column
-        """
-        self.empty = self.textColumn.get_empty()
-        # self.assertEqual(self.empty, 29)
+        self.text.get_empty()
+        self.assertEqual(self.text.empty, '1')
 
     def test_get_whitespace(self):
-        """
-         Return number of rows with only whitespaces for selected column
-         """
-        self.empty = self.textColumn.get_whitespace()
-        # self.assertEqual(self.empty, 29)
+        self.text.get_whitespace()
+        self.assertEqual(self.text.white, '1')
 
     def test_get_lowercase(self):
-        """
-        Return number of rows with only lower case characters for selected column
-        """
-        self.empty = self.textColumn.get_lowercase()
-        # self.assertEqual(self.empty, 0)
+        self.text.get_lowercase()
+        self.assertEqual(self.text.lower, '0')
 
     def test_get_uppercase(self):
-        """
-        Return number of rows with only upper case characters for selected column
-        """
-        self.empty = self.textColumn.get_uppercase()
-        # self.assertEqual(self.empty, 0)
+        self.text.get_uppercase()
+        self.assertEqual(self.text.upper, '2')
 
     def test_get_isalpha(self):
-        """
-        Return number of rows with only alphabet characters for selected column
-        """
-        self.empty = self.textColumn.get_alphabet()
-        # self.assertEqual(self.empty, 0)
+        self.text.get_alphabet()
+        self.assertEqual(self.text.alpha, '5')
 
     def test_get_digit(self):
-        """
-        Return number of rows with only numbers as characters for selected column
-        """
-        self.empty = self.textColumn.get_digit()
-        # self.assertEqual(self.empty, 0)
+        self.text.get_digit()
+        self.assertEqual(self.text.digit, '0')
 
     def test_get_mode(self):
-        """
-        Return the mode value for selected column
-        """
-        self.mode = self.textColumn.get_mode()
-        # self.assertEqual(self.mode, 0)
+        self.text.get_mode()
+        self.assertEqual(self.text.mode, 'DSP')
+
+    def test_get_barchart(self):
+        data = pd.Series(['DSP', 'Shangqing', 'Navid', None, 'DSP', " "])
+        test_barchart = st.bar_chart(data.value_counts())
+
+        self.text.get_barchart()
+        self.assertEqual(self.text.barchart, test_barchart)
 
     def test_get_frequent(self):
-        """
-        Return the Pandas dataframe containing the occurrences and percentage of the top 20 most frequent values
-        """
-        self.get_frequent = self.textColumn.get_frequent()
-        # self.assertEqual(self.get_frequent, 0)
+        self.text.get_frequent()
+        self.assertEqual(self.text.frequency['value'][0], 'DSP')
 
 
 if __name__ == '__main__':
