@@ -84,6 +84,11 @@ def render_data_get_head(data_inst, slider):
     """
     top_rows_heading = st.write('**Top Rows of Table**')
     # get head_df and render based on slider's values
+
+    # get number of rows in df
+    data_inst.get_n_rows()
+    if data_inst.rows < slider:
+        slider = data_inst.rows
     data_inst.get_head(slider)
     head_df = st.dataframe(data = data_inst.head)
 
@@ -93,6 +98,12 @@ def render_data_get_tail(data_inst, slider):
     """
     bottom_rows_heading = st.write('**Bottom Rows of Table**')
     # get taiL_df and render based on slider's values
+    
+    # get number of rows in df
+    data_inst.get_n_rows()
+    if data_inst.rows < slider:
+        slider = data_inst.rows
+    
     data_inst.get_tail(slider)
     tail_df = st.dataframe(data = data_inst.tail)
     
@@ -103,6 +114,12 @@ def render_data_get_sample(data_inst, slider):
     """
     random_rows_heading = st.write('**Random Sample Rows of Table**')
     # get sample_df and render based on slider's values
+    
+    # get number of rows in df
+    data_inst.get_n_rows()
+    if data_inst.rows < slider:
+        slider = data_inst.rows
+    
     data_inst.get_sample(slider)
     sample_df = st.dataframe(data = data_inst.sample)
 
