@@ -2,7 +2,7 @@ import streamlit as st
 from dataclasses import dataclass
 import pandas as pd
 import numpy as np
-
+import altair as alt
 
 @dataclass
 class NumericColumn:
@@ -91,25 +91,27 @@ class NumericColumn:
     Return the generated histogram for selected column
     """
     
-    bin_num = len(self.serie.unique()) - 1
-    if bin_num > 50:
-      bin_num = 50
-
-    hist_values = np.histogram(self.serie,
-    bins=bin_num)[0]
-
-    self.histogram = st.bar_chart(hist_values)
+    df = pd.DataFrame(self.serie)
+    chart = alt.Chart(df).mark_bar().encode(
+        alt.X(f'{self.serie.name}', bin = alt.Bin(maxbins=50)),
+        y='count()',)
     
+    self.histogram = st.altair_chart(chart)
+
     return None
 
   def get_frequent(self):
     """
     Return the Pandas dataframe containing the occurrences and percentage of the top 20 most frequent values
     """
-    occurences = pd.DataFrame(self.serie.value_counts().loc[lambda x: np.cumsum(x) < 21].reset_index())
+    
+    occurrences = pd.DataFrame(self.serie.value_counts().reset_index())
+    if len(occurrences) > 20:
+        occurrences = occurrences[:20]
+    
     percentage = pd.DataFrame(self.serie.value_counts(normalize = True)).reset_index()
     
-    self.frequency = occurences.merge(percentage, on = 'index', how = 'left')
+    self.frequency = occurrences.merge(percentage, on = 'index', how = 'left')
     self.frequency.rename(columns = { self.frequency.columns[0]: 'value',
                                       self.frequency.columns[1]: 'occurance',
                                       self.frequency.columns[2]: 'precentage'},

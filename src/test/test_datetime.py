@@ -9,7 +9,6 @@ sys.path.append('../')
 from src.datetime import DateColumn
 
 
-
 class TestGetName(unittest.TestCase):
     def test_get_name_success(self):
         # Create sample df
@@ -52,7 +51,6 @@ class TestGetWeekend(unittest.TestCase):
         
 
         df['Date'] = pd.to_datetime(df['Date'], format="%d/%m/%Y")
-        
         date_inst = DateColumn('Date', df['Date'])
         date_inst.get_weekend()
         
@@ -134,7 +132,6 @@ class TestGetBarchart(unittest.TestCase):
         df['Date'] = pd.to_datetime(df['Date'], format="%d/%m/%Y") 
         
         result = st.bar_chart(df['Date'].value_counts())
-        
         date_inst = DateColumn('Date', df['Date'])
         date_inst.get_barchart()
         
