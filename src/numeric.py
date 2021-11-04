@@ -91,13 +91,16 @@ class NumericColumn:
     """
     Return the generated histogram for selected column
     """
+    
+    bin_num = len(self.serie.unique()) - 1
+    if bin_num > 50:
+      bin_num = 50
+
     hist_values = np.histogram(self.serie,
-                                bins=50)[0]
-    
-    
-    #hist_values = self.serie.value_counts()(bins = 50)
-    
+    bins=bin_num)[0]
+
     self.histogram = st.bar_chart(hist_values)
+    
     return None
 
   def get_frequent(self):
