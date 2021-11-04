@@ -91,12 +91,11 @@ class NumericColumn:
     Return the generated histogram for selected column
     """
     
-    bin_num = len(self.serie.unique()) - 1
+    bin_num = len(self.serie[np.isfinite(self.serie)].unique()) - 1
     if bin_num > 50:
-      bin_num = 50
+        bin_num = 50
 
-    hist_values = np.histogram(self.serie,
-    bins=bin_num)[0]
+    hist_values = np.histogram(self.serie[np.isfinite(self.serie)],bins=bin_num)[0]
 
     self.histogram = st.bar_chart(hist_values)
     

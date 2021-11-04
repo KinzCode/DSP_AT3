@@ -13,7 +13,11 @@ import src
 df = pd.read_csv('pinnacle_odds_sample.csv')
 
 
-serie = df['BlueCornerOdds']
+serie = df['BookieMatchNo']
+test = serie[np.isfinite(serie)]
 
-n = 5
-x = df['BlueCornerOdds'].value_counts().loc[lambda x: np.cumsum(x) < 20]
+num = src.numeric.NumericColumn("Test", serie)
+num.get_histogram()
+
+x = num.histogram
+
