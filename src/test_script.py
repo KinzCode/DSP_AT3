@@ -17,7 +17,8 @@ serie = df['BookieMatchNo']
 test = serie[np.isfinite(serie)]
 
 num = src.numeric.NumericColumn("Test", serie)
-num.get_histogram()
+num.get_frequent()
 
-x = num.histogram
+x = num.frequency
 
+y = serie.value_counts().reset_index()

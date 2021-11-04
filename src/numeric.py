@@ -105,10 +105,14 @@ class NumericColumn:
     """
     Return the Pandas dataframe containing the occurrences and percentage of the top 20 most frequent values
     """
-    occurences = pd.DataFrame(self.serie.value_counts().loc[lambda x: np.cumsum(x) < 21].reset_index())
+    
+    occurrences = pd.DataFrame(self.serie.value_counts().reset_index())
+    if len(occurrences) > 20:
+        occurrences = occurrences[:20]
+    
     percentage = pd.DataFrame(self.serie.value_counts(normalize = True)).reset_index()
     
-    self.frequency = occurences.merge(percentage, on = 'index', how = 'left')
+    self.frequency = occurrences.merge(percentage, on = 'index', how = 'left')
     self.frequency.rename(columns = { self.frequency.columns[0]: 'value',
                                       self.frequency.columns[1]: 'occurance',
                                       self.frequency.columns[2]: 'precentage'},
