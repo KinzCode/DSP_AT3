@@ -2,7 +2,7 @@ import streamlit as st
 from dataclasses import dataclass
 import pandas as pd
 import numpy as np
-
+import altair as alt
 
 @dataclass
 class NumericColumn:
@@ -91,14 +91,13 @@ class NumericColumn:
     Return the generated histogram for selected column
     """
     
-    bin_num = len(self.serie[np.isfinite(self.serie)].unique()) - 1
-    if bin_num > 50:
-        bin_num = 50
-
-    hist_values = np.histogram(self.serie[np.isfinite(self.serie)],bins=bin_num)[0]
-
-    self.histogram = st.bar_chart(hist_values)
+    df = pd.DataFrame(self.serie)
+    chart = alt.Chart(df).mark_bar().encode(
+        alt.X(f'{self.serie.name}', bin = alt.Bin(maxbins=50)),
+        y='count()',)
     
+    self.histogram = st.altair_chart(chart)
+
     return None
 
   def get_frequent(self):
